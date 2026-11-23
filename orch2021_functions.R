@@ -296,22 +296,19 @@ get.NextSegShifts.EcolPhasesLOA = function (df.sig.matched, RData, Comp, next.se
 
 
 ###Another iteration of getting shifts from the sig sites dataframe - used in Resolving Tempo
-get.NextSegShifts.Final = function (df.sig.matched, RData, RData_LOO, Comp, next.segs) 
+get.NextSegShifts.Final = function (df.sig.matched, RData_LOO, Comp, next.segs)   
 {
-    load(RData)
+    load(RData_LOO)                                                               
     df = df.sig.matched %>% filter(comparison == Comp) %>% mutate(sign.shift = sign(afShift), 
         phased.afShift = abs(afShift))
-    af.shifts = get_af_shifts(afmat.lo, samps.lo, cage_set = NULL, 
+    af.shifts = get_af_shifts(afmat.lo, samps.lo, cage_set = NULL,                       
         next.segs)
     af.shifts = cbind(sites, af.shifts)
     af.shifts.target = af.shifts
     colnames(af.shifts.target) = paste(colnames(af.shifts), "target", 
         sep = ".")
     colnames(af.shifts.target)[1:2] = c("chrom", "pos")
-    load(RData_LOO)
-    af.shifts.matched = get_af_shifts(afmat, samps, cage_set = NULL, 
-        next.segs)
-    af.shifts.matched = cbind(sites, af.shifts.matched)
+    af.shifts.matched = af.shifts                                                 
     colnames(af.shifts.matched) = paste(colnames(af.shifts), 
         "matched", sep = ".")
     colnames(af.shifts.matched)[1:2] = c("chrom", "pos")
